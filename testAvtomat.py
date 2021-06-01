@@ -1,13 +1,41 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+import datetime
+
+selection_dir = "X:/аналитика/Отчеты/Автоматы по конкурентам/"
+# selection_dir = "X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/12_selectionProjectAvtomat/"
+
+files = os.listdir(selection_dir)
+date_formatter = "%d.%m.%y"
+files_0 = datetime.datetime.strptime(files[0], date_formatter).date()
+
+# print(files_0)
+# print(type(files_0))
+
+def date_str_to_date(any_list):
+    nu_list = []
+    for i in any_list:
+        i = datetime.datetime.strptime(i, date_formatter).date()
+        nu_list.append(i)
+    return nu_list
+
+print(date_str_to_date(files))
+
+# file_to_list = files.split()
+# содержимое папки
+
+# print(files)
+
+
 path_to_table = 'X:/аналитика/Отчеты/Автоматы по конкурентам/'
 table_date = '01.02.21'
-table_name = '/'+'newAvtomatNTM'
+table_name = '/' + 'newAvtomatNTM'
 table_ext = '.xlsx'
-full_name = path_to_table+table_date+table_name+table_ext
+full_name = path_to_table + table_date + table_name + table_ext
 file_name = 'X:/аналитика/Отчеты/Автоматы по конкурентам/01.02.21/newAvtomatNTM.xlsx'
-my_table = pd.read_excel(io=file_name,  engine='openpyxl', sheet_name='ОБЪЕКТЫ')
+my_table = pd.read_excel(io=file_name, engine='openpyxl', sheet_name='ОБЪЕКТЫ')
 # my_table = pd.read_excel(io='X:/аналитика/Отчеты/Автоматы по конкурентам/01.02.21/newAvtomatNTM.xlsx',  engine='openpyxl', sheet_name='ОБЪЕКТЫ')
 
 # print(my_table.tail(10))
@@ -22,9 +50,9 @@ my_table = pd.read_excel(io=file_name,  engine='openpyxl', sheet_name='ОБЪЕ�
 # plt.show()
 # print(my_table.columns)
 nu_table = my_table.loc[:, ['Комнатность для сайта', 'площадь', 'доступность к продаже',
-       'стоимость', 'Цена за м²', 'Статус', 'ID квартиры']]
+                            'стоимость', 'Цена за м²', 'Статус', 'ID квартиры']]
 # nu_table_1 = my_table.loc[:, ['Комнатность для сайта', 'доступность к продаже', 'Статус']]
-nu_table = nu_table.loc[nu_table.loc[:,'доступность к продаже'] == 1 ]
+nu_table = nu_table.loc[nu_table.loc[:, 'доступность к продаже'] == 1]
 nu_table[['date']] = table_date
 nu_table[['Проект']] = 'НТ'
 ntm_group = nu_table.groupby('Комнатность для сайта').count()
@@ -34,14 +62,14 @@ output_path = 'X:/аналитика/КозловскийАВ/10_PYTHON/'
 output_name = 'NTM.xlsx'
 
 # create excel writer object
-doc_to_excel = pd.ExcelWriter(output_path+output_name)
+#   doc_to_excel = pd.ExcelWriter(output_path+output_name)
 # write dataframe to excel
-nu_table.to_excel(doc_to_excel, '01.01.2020', index=False)
-       # save the excel
-doc_to_excel.save()
+# nu_table.to_excel(doc_to_excel, '01.01.2020', index=False)
+# save the excel
+# doc_to_excel.save()
 
 
-print('DataFrame is written successfully to Excel File.')
+# print('DataFrame is written successfully to Excel File.')
 
 
 # print(ntm_group)
