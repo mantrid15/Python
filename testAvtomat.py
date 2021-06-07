@@ -4,72 +4,48 @@ import matplotlib.pyplot as plt
 import os
 import datetime
 
-selection_dir = "X:/аналитика/Отчеты/Автоматы по конкурентам/"
-# selection_dir = "X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/12_selectionProjectAvtomat/"
+import myfunc as mf
 
-files = os.listdir(selection_dir)
-date_formatter = "%d.%m.%y"
-files_0 = datetime.datetime.strptime(files[0], date_formatter).date()
+selection_dir = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/12_sourceProjectAvtomat/'
+# исходное местоположение отчётов/автоматов от И.М,
 
-# print(files_0)
-# print(type(files_0))
+final_dir = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/'
+# финальное размещение выходных файлов
 
-def date_str_to_date(any_list):
-    nu_list = []
-    for i in any_list:
-        i = datetime.datetime.strptime(i, date_formatter).date()
-        nu_list.append(i)
-    return nu_list
-
-print(date_str_to_date(files))
-
-# file_to_list = files.split()
+dirs = os.listdir(selection_dir)
+files = os.listdir(final_dir)
 # содержимое папки
+#  list имен папок из исходного местоположения, даты в строк. формате
 
-# print(files)
+date_formatter = "%d.%m.%y"
+# шаблон форматированиz дат
+# dirs_0 = datetime.datetime.strptime(dirs[0], date_formatter).date()
 
+extens='.xlsx'
+# удаляемое расширение
 
-path_to_table = 'X:/аналитика/Отчеты/Автоматы по конкурентам/'
-table_date = '01.02.21'
-table_name = '/' + 'newAvtomatNTM'
-table_ext = '.xlsx'
-full_name = path_to_table + table_date + table_name + table_ext
-file_name = 'X:/аналитика/Отчеты/Автоматы по конкурентам/01.02.21/newAvtomatNTM.xlsx'
-my_table = pd.read_excel(io=file_name, engine='openpyxl', sheet_name='ОБЪЕКТЫ')
-# my_table = pd.read_excel(io='X:/аналитика/Отчеты/Автоматы по конкурентам/01.02.21/newAvtomatNTM.xlsx',  engine='openpyxl', sheet_name='ОБЪЕКТЫ')
-
-# print(my_table.tail(10))
-# print(my_table.columns)
-# df = pd.read_csv(full_name, index_col='Date', parse_dates=True)
-# df = df.sort_index()
-
-# print(df.info())
-# print(df.tail(10))
-# new_sample_df = df.loc['2012-Feb':'2017-Feb', ['Close']]
-# new_sample_df.plot()
-# plt.show()
-# print(my_table.columns)
-nu_table = my_table.loc[:, ['Комнатность для сайта', 'площадь', 'доступность к продаже',
-                            'стоимость', 'Цена за м²', 'Статус', 'ID квартиры']]
-# nu_table_1 = my_table.loc[:, ['Комнатность для сайта', 'доступность к продаже', 'Статус']]
-nu_table = nu_table.loc[nu_table.loc[:, 'доступность к продаже'] == 1]
-nu_table[['date']] = table_date
-nu_table[['Проект']] = 'НТ'
-ntm_group = nu_table.groupby('Комнатность для сайта').count()
-# nu_table.drop(nu_table.drop(nu_table.index, inplace=True))
-# print(nu_table.tail(10))
-output_path = 'X:/аналитика/КозловскийАВ/10_PYTHON/'
-output_name = 'NTM.xlsx'
-
-# create excel writer object
-#   doc_to_excel = pd.ExcelWriter(output_path+output_name)
-# write dataframe to excel
-# nu_table.to_excel(doc_to_excel, '01.01.2020', index=False)
-# save the excel
-# doc_to_excel.save()
+dir_contain = selection_dir+dirs[0]
+# print(dir_contain)
+files_into_dir = os.listdir(dir_contain)
 
 
-# print('DataFrame is written successfully to Excel File.')
+source_list = mf.date_str_to_date_and_delete_extension(dirs, date_formatter)
+final_list = mf.date_str_to_date_and_delete_extension(files, date_formatter)
+# обработанные списки
+# print(mf.date_str_to_date_and_delete_extension(dirs, date_formatter))
+# print(mf.date_str_to_date_and_delete_extension(files, date_formatter))
 
 
-# print(ntm_group)
+# сравнение 2ух списков и составление третьего, в котором элементы отсутствующие во 2 списке
+list_difference = set(source_list) - set(final_list)
+# print(list_difference)
+
+
+
+# из исходной папки из папки на дату взять список файлов,
+# извлечь те листы которые содержат требуемые данные,
+# слить в одну базу все листы по проекту,
+# получить нужные столбцы и пропустить через нужные фильтры,
+# после создать выходной файл на дату датной папки, где каждый лист назван проектом
+# куда вносятся все данные, которые полученые отбором и фильтрацией
+
