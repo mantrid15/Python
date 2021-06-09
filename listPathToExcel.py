@@ -3,13 +3,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import openpyxl
 import os
+import datetime
 import pprint
-import testAvtomat as ta
 import myfunc as mf
 import more_itertools as mi
 from openpyxl import load_workbook
 
-path_to_table = ta.selection_dir
+final_dir = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/'
+# финальное размещение выходных файлов
+
+# исходное местоположение отчётов/автоматов от И.М,
+path_to_table = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/12_sourceProjectAvtomat/'
 # путь к папке содержащей папки с АВТОМАТАМИ
 dirs = os.listdir(path_to_table)
 # список папок в рабочей папке
@@ -25,18 +29,17 @@ path = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТА�
 xls = pd.read_excel(path, sheet_name=None)
 # print(xls.keys())
 # print(wb)
-list_all = ['ОБЪЕКТЫ',
-                     '1', '2', '3', '4', '5',
-                     '6', '7', '8', '9', '10',
-                     '11', '12', '13', '14', '15',
-                     '16', '17', '18', '19', '20',
-                     '21']
+list_all = ['1', '2', '3', '4', '5',
+            '6', '7', '8', '9', '10',
+            '11', '12', '13', '14', '15',
+            '16', '17', '18', '19', '20',
+            '21']
 list_may = ['1', '2', '3', '4', '5',
-                     '6', '7', '8', '9', '10',
-                     '11', '12', '13', '14', '15',
-                     '16', '17', '18', '19', '20',
-                     '21']
-list_nk = ['1', '2', '3', '4', '5','6']
+            '6', '7', '8', '9', '10',
+            '11', '12', '13', '14', '15',
+            '16', '17', '18', '19', '20',
+            '21']
+list_nk = ['1', '2', '3', '4', '5', '6']
 
 headers_all = ['комнат',
                'площадь',
@@ -59,7 +62,7 @@ y_table = pd.read_excel(io=list_temp_all, engine='openpyxl')
 print(y_table.columns)
 
 
-# print(list_temp)
+print(list_temp)
 # print(*mf.xls_sheet(list_temp, list_for_download))
 
 

@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import openpyxl
 import pprint
-import testAvtomat as ta
+# import testAvtomat as ta
 import more_itertools as mi
 from openpyxl import load_workbook
 

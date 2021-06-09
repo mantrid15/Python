@@ -31,6 +31,8 @@ files_into_dir = os.listdir(dir_contain)
 
 source_list = mf.date_str_to_date_and_delete_extension(dirs, date_formatter)
 final_list = mf.date_str_to_date_and_delete_extension(files, date_formatter)
+
+# print(source_list)
 # обработанные списки
 # print(mf.date_str_to_date_and_delete_extension(dirs, date_formatter))
 # print(mf.date_str_to_date_and_delete_extension(files, date_formatter))
