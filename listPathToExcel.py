@@ -59,10 +59,10 @@ list_temp = full_list_files[1]
 list_temp_all = full_list_files[2]
 
 y_table = pd.read_excel(io=list_temp_all, engine='openpyxl')
-print(y_table.columns)
+# print(y_table.columns)
 
 
-print(list_temp)
+# print(list_temp)
 # print(*mf.xls_sheet(list_temp, list_for_download))
 
 
@@ -110,17 +110,7 @@ def concat_list_2(a):
 
 # print(concat_list_2(list_temp))
 
-
-
-# print(nu_table.tail(10))
-# print(my_table)
-
-# my_table = pd.read_excel(io=a, engine='openpyxl', sheet_name=i)
-# # print(my_table.columns)
-# nu_table = my_table.loc[:, ['комнат', 'площадь',
-#                             'доступность к продаже',
-#                             'стоимость',
-#                             'ID квартиры',
-#                             'Стоимость со скидкой']]
-# nu_table_select = nu_table.loc[nu_table.loc[:, 'доступность к продаже'] == 1]
-# print(nu_table)
+doc_to_excel = pd.ExcelWriter(final_dir+'proba.xlsx')
+concat_list_2(list_temp).to_excel(doc_to_excel, 'project', index=False)
+doc_to_excel.save()
+print('DataFrame is written successfully to Excel File.')
