@@ -8,17 +8,22 @@ import datetime
 # и создаёт новый файл с 5ю столбцами и произведённой фильтрацией
 # в файле создаеёт лист с датой куда и помещает выжимку
 
+pd.set_option('display.max_rows', 1000000)
+pd.set_option('display.max_columns', 1000000)
+pd.set_option('display.width', 1000000)
+pd.options.display.float_format = '{:.2f}'.format
 
-path_to_table = 'X:/аналитика/Отчеты/Автоматы по конкурентам/'
-table_date = '31.05.21'
-table_name = '/' + 'newAvtomatNTM'
-table_ext = '.xlsx'
-full_name = path_to_table + table_date + table_name + table_ext
-file_name = 'X:/аналитика/Отчеты/Автоматы по конкурентам/31.05.21/newAvtomatNTM.xlsx'
-my_table = pd.read_excel(io=file_name, engine='openpyxl', sheet_name='ОБЪЕКТЫ')
-# my_table = pd.read_excel(io='X:/аналитика/Отчеты/Автоматы по конкурентам/31.05.21/newAvtomatNTM.xlsx',  engine='openpyxl', sheet_name='ОБЪЕКТЫ')
+
+# path_to_table = 'X:/аналитика/Отчеты/Автоматы по конкурентам/'
+# table_date = '31.05.21'
+# table_name = '/' + 'newAvtomatNTM'
+# table_ext = '.xlsx'
+# full_name = path_to_table + table_date + table_name + table_ext
+# file_name = 'X:/аналитика/Отчеты/Автоматы по конкурентам/31.05.21/newAvtomatNTM.xlsx'
+# my_table = pd.read_excel(io=file_name, engine='openpyxl', sheet_name='ОБЪЕКТЫ')
+my_table = pd.read_excel(io='X:/аналитика/Отчеты/Автоматы по конкурентам/19.05.21/newAvtomatTOP.xlsx',  engine='openpyxl', sheet_name='ОБЪЕКТЫ')
 # print(my_table.tail(10))
-# print(my_table.columns)
+print(my_table.columns)
 # nu_table = my_table.loc[:, ['Комнатность для сайта', 'доступность к продаже', 'Статус']]
 # print(nu_table)
 # ntm_group = nu_table.groupby('Комнатность для сайта').count()
@@ -28,8 +33,8 @@ my_table = pd.read_excel(io=file_name, engine='openpyxl', sheet_name='ОБЪЕК
 
 
 
-
-# работающий базовый скрипт для выгрузки в эксель
+#
+# # работающий базовый скрипт для выгрузки в эксель
 #
 # nu_table = my_table.loc[:, ['Комнатность для сайта', 'площадь', 'доступность к продаже',
 #                             'стоимость', 'Цена за м²', 'Статус', 'ID квартиры']]

@@ -8,109 +8,116 @@ import pprint
 import myfunc as mf
 import more_itertools as mi
 from openpyxl import load_workbook
+import constant as ct
 
-final_dir = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/'
+# модули регулирующие параметры предстваления вывода при debug
+pd.set_option('display.max_rows', 1000000)
+pd.set_option('display.max_columns', 1000000)
+pd.set_option('display.width', 1000000)
+pd.options.display.float_format = '{:.2f}'.format
+
 # финальное размещение выходных файлов
-
+final_dir = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/'
 # исходное местоположение отчётов/автоматов от И.М,
 path_to_table = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/12_sourceProjectAvtomat/'
+
+# входные данные для выгрузки из автоматов Ивана
+# avtomat_path_to_table = 'X:/аналитика/Отчеты/Автоматы по конкурентам/'
+# avtomat_fin_dir = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/'
+# avtomat_dirs = os.listdir(avtomat_path_to_table)
+# avtomat_full_path_to_dirs = mf.path_to_dirs(avtomat_dirs, avtomat_path_to_table)
+# avtomat_output_name = 'full_avtomat.xlsx'
+
+# список для финальной обработки
+# avtomat_full_list_files = mf.list_files_source(avtomat_full_path_to_dirs)
+# table_avtomat = mf.full_book_excel_select(avtomat_full_list_files)
+
+# print(avtomat_full_list_files)
 # путь к папке содержащей папки с АВТОМАТАМИ
 dirs = os.listdir(path_to_table)
 # список папок в рабочей папке
-
 full_path_to_dirs = mf.path_to_dirs(dirs, path_to_table)
 #  список путей к файлам
 full_list_files = mf.list_files_source(full_path_to_dirs)
 # список файлов в папке АВТОМАТОВ
 # print(*full_list_files, sep='\n')
-
-path = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/12_sourceProjectAvtomat/26.05.21/newAvtomatMAYgorkiLns.xlsx'
-# wb = load_workbook(path)
-xls = pd.read_excel(path, sheet_name=None)
-# print(xls.keys())
-# print(wb)
-list_all = ['1', '2', '3', '4', '5',
-            '6', '7', '8', '9', '10',
-            '11', '12', '13', '14', '15',
-            '16', '17', '18', '19', '20',
-            '21']
-list_may = ['1', '2', '3', '4', '5',
-            '6', '7', '8', '9', '10',
-            '11', '12', '13', '14', '15',
-            '16', '17', '18', '19', '20',
-            '21']
-list_nk = ['1', '2', '3', '4', '5', '6']
-
-headers_all = ['комнат',
-               'площадь',
-               'доступность к продаже',
-               'стоимость',
-               'ID квартиры',
-               'Стоимость со скидкой']
-
-headers_may = []
-headers_nk = []
-# список листов в искомых файлах, содержащих требуемые данные
+# print(len(full_list_files))
 
 # print(*mf.xls_sheet(full_list_files, list_for_download), sep='\n')
 
-list_temp = full_list_files[1]
+# list_temp = full_list_files[1]
+# list_temp_all = full_list_files[2]
+# print(list_temp_all)
 
-list_temp_all = full_list_files[2]
-
-y_table = pd.read_excel(io=list_temp_all, engine='openpyxl')
+# y_table = pd.read_excel(io=list_temp_all, engine='openpyxl')
 # print(y_table.columns)
-
 
 # print(list_temp)
 # print(*mf.xls_sheet(list_temp, list_for_download))
+# print(mf.concat_list_2(list_temp))
+# nu_list = full_list_files[0]
+nu_list = full_list_files
+
+# print(nu_list)
+
+output_path = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/'
+output_name = 'all_projects_free_sale_flats.xlsx'
+output_name_sheet = 'proba'
+
+# mf.full_book_excel_select(nu_list)
+# table = mf.full_book_excel_select(nu_list)
+# print(table)
+avtomat_path_to_table = 'X:/аналитика/Отчеты/Автоматы по конкурентам/'
+avtomat_fin_dir = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/'
+avtomat_dirs = os.listdir(avtomat_path_to_table)
+# print(avtomat_dirs)
+avtomat_full_path_to_dirs = mf.path_to_dirs(avtomat_dirs, avtomat_path_to_table)
+# print(avtomat_full_path_to_dirs)
+avtomat_output_name = 'full_avtomat.xlsx'
+avtomat_full_list_files = mf.list_files_source(avtomat_full_path_to_dirs)
+# print(avtomat_full_list_files, sep='\n')
 
 
-def concat_list(b):
-    full_table = []
-
-    for i in b:
-        my_table = pd.read_excel(io=list_temp, engine='openpyxl', sheet_name=i)
-        # print(my_table.columns)
-        nu_table_1 = my_table.loc[:, ['комнат', 'площадь',
-                                    'доступность к продаже',
-                                    'стоимость',
-                                    'ID квартиры',
-                                    'Стоимость со скидкой']]
-        nu_table_select = nu_table_1.loc[nu_table_1.loc[:, 'доступность к продаже'] == 1]
-        if nu_table_select.empty == False:
-            full_table.append(nu_table_select)
-    nu_full_table = pd.concat(full_table)
-    return nu_full_table
-# принимает полный путь с именем файла и возвращает конкатенированнй список если в файле более 1го листа для рассчёта
-
-# print(concat_list(list_may))
-
-def concat_list_2(a):
-    full_table = []
-    b = ""
-    if a.find('MAYgorkiLns') > 0:
-        b = list_may
-    elif a.find('NKkorenevo') > 0:
-        b = list_nk
-    else:
-        b = list_all
-
-    for i in b:
-        my_table = pd.read_excel(io=a, engine='openpyxl', sheet_name=i)
-        # print(my_table.columns)
-        nu_table_1 = my_table.loc[:, headers_all]
-        nu_table_select = nu_table_1.loc[nu_table_1.loc[:, 'доступность к продаже'] == 1]
-        if not nu_table_select.empty:
-            full_table.append(nu_table_select)
-
-    nu_full_table = pd.concat(full_table)
-    return nu_full_table
+# принимает массив и выгружает его в эксельный файл
+def print_to_excel(a,b,c,d):
+    # a - обрабатываемая таблица, список полных путей с именами файлов 'X:/аналитика/Отчеты/Автоматы по конкурентам/14.04.21/newAvtomatYAR.xlsx'
+    # b - путь к папке вывода, место где будет расположен итоговый файл эксель
+    # c - нименование выходного файла
+    # d - имя листа в создаваемом файле
+    # create excel writer object
+    doc_to_excel = pd.ExcelWriter(b + c, engine='xlsxwriter')
+    # write dataframe to excel
+    a.to_excel(doc_to_excel, d, index=False)
+    # table.to_excel(doc_to_excel, 'all_projects', index=False)
+    # save the excel
+    doc_to_excel.save()
+    print('DataFrame is written successfully to Excel File.')
 
 
-# print(concat_list_2(list_temp))
+table_avtomat = mf.full_book_excel_select(full_list_files)
+# print(table_avtomat)
 
-doc_to_excel = pd.ExcelWriter(final_dir+'proba.xlsx')
-concat_list_2(list_temp).to_excel(doc_to_excel, 'project', index=False)
-doc_to_excel.save()
-print('DataFrame is written successfully to Excel File.')
+print_to_excel(table_avtomat, output_path, avtomat_output_name, output_name_sheet )
+# print_to_excel(table, output_path, output_name, output_name_sheet )
+
+# # create excel writer object
+# doc_to_excel = pd.ExcelWriter(avtomat_fin_dir + avtomat_output_name, engine='xlsxwriter')
+# # write dataframe to excel
+# table_avtomat.to_excel(doc_to_excel, 'all_projects', index=False)
+# # table.to_excel(doc_to_excel, 'all_projects', index=False)
+# # save the excel
+# doc_to_excel.save()
+# print('DataFrame is written successfully to Excel File.')
+#
+#  # принимает список путей к файлам возворащает список [путь к файлу, дата отчёта,
+#  # наименование проекта (по принятым сокращениям - ВБ2, НТ и пр.)]
+#
+# df_ = pd.DataFrame(data=None, columns=ct.headers_all)
+# print(df_)
+
+
+# empty_table = pd.DataFrame(index=index, columns=ct.headers_all)
+# nda1 = np.array([[1, 1, 1, 1, 1, 1], ct.headers_all])
+# df4 = pd.DataFrame(nda1)
+# print(df4)
+# print(empty_table)
