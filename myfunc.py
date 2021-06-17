@@ -101,9 +101,14 @@ def xls_sheet(a, b):
 # в процессе оставляет столбцы по списку, фильтрует по условию и оставляет строки по условию
 
 def concat_list_2(a):
+    counter = 0
     project = ''
     # print("Выбрано по фильтру строк: " + str(len(a)))
-    date = a.split(sep='/')[5]
+    if a.find('Автоматы') > 0:
+        ind = 4
+    else:
+        ind = 5
+    date = a.split(sep='/')[ind]
     str(date)
     if a.find('DABL') > 0:
         project = 'Дабл'
@@ -132,8 +137,8 @@ def concat_list_2(a):
     else:
         b = ct.list_all
     full_table = []
-    for i in b:
 
+    for i in b:
         my_table = pd.read_excel(io=a, engine='openpyxl', sheet_name=i)
         nu_table_1 = my_table.loc[:, ct.headers_all]
         nu_table_1['Проект'] = project
@@ -142,13 +147,13 @@ def concat_list_2(a):
 
         if len(nu_table_select) == 0:
             nu_table_select = pd.DataFrame(data=None, columns=ct.headers_all)
-
         # if not nu_table_select.empty:
         # if len(nu_table_select) != 0:
         full_table.append(nu_table_select)
 
     nu_full_table = pd.concat(full_table)
-    print('Список выжимки сделан по Проекту ' + project + ' Дата: - ' + date + " Выбрано по фильтру строк: " + str(len(nu_table_select)))
+    print(f'Список по Проекту {project} - Дата: - {date}  Выбрано по фильтру строк: ' + str(len(nu_table_select)))
+
     return nu_full_table
 
 
@@ -201,13 +206,21 @@ def concat_list_2(a):
 # принимает список путей и имён файлов и в цикле применяет  concat_list_2
 def full_book_excel_select(d):
     full_table = []
-    print("Файлов в выборке: " + str(len(d)))
+    counter = len(d)
+    print(f"Файлов в выборке: {counter}")
     for i in d:
+
         i = str(i)
         list1 = concat_list_2(i)
         full_table.append(list1)
+        counter = counter - 1
         # print(full_table)
         # print(full_table)
+        if counter > 0:
+            print(f"Осталось в выборке: {counter}")
+        else:
+            print('Выгрузка закончена')
+
     nu_full_table = pd.concat(full_table)
-    print(len(nu_full_table))
+
     return nu_full_table

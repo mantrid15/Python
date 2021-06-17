@@ -16,10 +16,30 @@ pd.set_option('display.max_columns', 1000000)
 pd.set_option('display.width', 1000000)
 pd.options.display.float_format = '{:.2f}'.format
 
+switcher = 1
+# 1 - работа с демо базой, 0 - работа с основной базой
+if switcher == 1:
+    path_to_table = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/12_sourceProjectAvtomat/'
+    output_path = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/'
+    # выборка для  АЦ по изменению средней цены за весь период существования автоматов
+    output_name = 'complete_1.xlsx'
+    output_name_sheet = 'proba'
+
+else:
+    path_to_table = 'X:/аналитика/Отчеты/Автоматы по конкурентам/'
+    output_path = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/'
+    output_name = 'complete.xlsx'
+    output_name_sheet = 'date'
+
+# print(path_to_table, output_path, output_name, output_name_sheet, sep='\n')
+
+
+
 # финальное размещение выходных файлов
 final_dir = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/'
 # исходное местоположение отчётов/автоматов от И.М,
-path_to_table = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/12_sourceProjectAvtomat/'
+# path_to_table = 'X:/аналитика/Отчеты/Автоматы по конкурентам/'
+# path_to_table = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/12_sourceProjectAvtomat/'
 
 # входные данные для выгрузки из автоматов Ивана
 # avtomat_path_to_table = 'X:/аналитика/Отчеты/Автоматы по конкурентам/'
@@ -35,12 +55,16 @@ path_to_table = 'X:/аналитика/КозловскийАВ/06_ТУРНИР�
 # print(avtomat_full_list_files)
 # путь к папке содержащей папки с АВТОМАТАМИ
 dirs = os.listdir(path_to_table)
-# список папок в рабочей папке
+date_formatter = "%d.%m.%y"
+# di_date =
+# print(dirs)
+# список папок в рабочей папке+
 full_path_to_dirs = mf.path_to_dirs(dirs, path_to_table)
 #  список путей к файлам
 full_list_files = mf.list_files_source(full_path_to_dirs)
+# print(len(full_path_to_dirs))
 # список файлов в папке АВТОМАТОВ
-# print(*full_list_files, sep='\n')
+# print(len(full_list_files),*full_list_files, sep='\n')
 # print(len(full_list_files))
 
 # print(*mf.xls_sheet(full_list_files, list_for_download), sep='\n')
@@ -60,23 +84,21 @@ nu_list = full_list_files
 
 # print(nu_list)
 
-output_path = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/'
-output_name = 'all_projects_free_sale_flats.xlsx'
-output_name_sheet = 'proba'
+
 
 # mf.full_book_excel_select(nu_list)
 # table = mf.full_book_excel_select(nu_list)
 # print(table)
-avtomat_path_to_table = 'X:/аналитика/Отчеты/Автоматы по конкурентам/'
-avtomat_fin_dir = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/'
-avtomat_dirs = os.listdir(avtomat_path_to_table)
-# print(avtomat_dirs)
-avtomat_full_path_to_dirs = mf.path_to_dirs(avtomat_dirs, avtomat_path_to_table)
-# print(avtomat_full_path_to_dirs)
-avtomat_output_name = 'full_avtomat.xlsx'
-avtomat_full_list_files = mf.list_files_source(avtomat_full_path_to_dirs)
+# avtomat_path_to_table = 'X:/аналитика/Отчеты/Автоматы по конкурентам/'
+# avtomat_fin_dir = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/'
+# avtomat_dirs = os.listdir(avtomat_path_to_table)
+# # print(avtomat_dirs)
+# avtomat_full_path_to_dirs = mf.path_to_dirs(avtomat_dirs, avtomat_path_to_table)
+# # print(avtomat_full_path_to_dirs)
+# avtomat_output_name = 'complete.xlsx'
+#
+# avtomat_full_list_files = mf.list_files_source(avtomat_full_path_to_dirs)
 # print(avtomat_full_list_files, sep='\n')
-
 
 # принимает массив и выгружает его в эксельный файл
 def print_to_excel(a,b,c,d):
@@ -93,11 +115,10 @@ def print_to_excel(a,b,c,d):
     doc_to_excel.save()
     print('DataFrame is written successfully to Excel File.')
 
-
 table_avtomat = mf.full_book_excel_select(full_list_files)
 # print(table_avtomat)
 
-print_to_excel(table_avtomat, output_path, avtomat_output_name, output_name_sheet )
+print_to_excel(table_avtomat, output_path, output_name, output_name_sheet)
 # print_to_excel(table, output_path, output_name, output_name_sheet )
 
 # # create excel writer object
