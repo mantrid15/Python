@@ -47,8 +47,14 @@ full_list_files = mf.list_files_source(full_path_to_dirs)
 
 old_list = pd.read_excel(name_base,
                          engine='openpyxl', sheet_name='date')
-old_list_date = set(old_list.loc[:, 'date'])
-print(old_list_date)
+old_list_date = set(old_list.loc[:, 'Дата'])
+dif_list_date = list(set(dirs) - set(old_list_date))
+dif_table_path = mf.list_files_source(mf.path_to_dirs(dif_list_date, path_to_table))
+dif_table = mf.full_book_excel_select(dif_table_path)
+
+
+print(dif_table)
+# print(old_list_date)
 # diff_dirs =
 # table_avtomat = mf.full_book_excel_select(full_list_files)
 # print(table_avtomat)
