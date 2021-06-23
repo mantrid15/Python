@@ -1,5 +1,8 @@
 import pandas as pd
 
+
+date_formatter = "%d.%m.%y"
+
 list_all = ['ОБЪЕКТЫ']
 list_may = ['1', '2', '3', '4', '5',
             '6', '7', '8', '9', '10',

@@ -9,6 +9,7 @@ import myfunc as mf
 import more_itertools as mi
 from openpyxl import load_workbook
 import constant as ct
+from io import StringIO
 
 # модули регулирующие параметры предстваления вывода при debug
 pd.set_option('display.max_rows', 1000000)
@@ -36,27 +37,48 @@ else:
 # print(path_to_table, output_path, output_name, output_name_sheet, sep='\n')
 # путь к папке содержащей папки с АВТОМАТАМИ
 dirs = os.listdir(path_to_table)
-date_formatter = "%d.%m.%y"
-name_base = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/filter_free_sales.xlsx'
 
-# print(dirs)
+name_xlsx = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/filter_free_sales.xlsx'
+name_csv = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/filter_free_sales.csv'
+
 # список папок в рабочей папке+
-full_path_to_dirs = mf.path_to_dirs(dirs, path_to_table)
+# full_path_to_dirs = mf.path_to_dirs(dirs, path_to_table)
 #  список путей к файлам
-full_list_files = mf.list_files_source(full_path_to_dirs)
+# full_list_files = mf.list_files_source(full_path_to_dirs)
 
 #  чтение файла со старыми даннными
-old_list = pd.read_excel(name_base, engine='openpyxl', sheet_name='date')
+# old_list_xlsx = pd.read_excel(name_xlsx, engine='openpyxl', sheet_name='date')
+
+
 # получение списка уникальных дат
-old_list_date = set(old_list.loc[:, 'Дата'])
+# old_list_date = set(old_list_xlsx.loc[:, 'Дата'])
+
 # получение разницы между старыми данными и новыми выгрузками
-dif_list_date = list(set(dirs) - set(old_list_date))
+# dif_list_date = list(set(dirs) - set(old_list_date))
+
 # возвращает полный список новых файлов с путями в папке АВТОМАТ
-dif_table_path = mf.list_files_source(mf.path_to_dirs(dif_list_date, path_to_table))
+# dif_table_path = mf.list_files_source(mf.path_to_dirs(dif_list_date, path_to_table))
+
 # создаеёт новый dataFrame для добавления к существующей базе
-dif_table = mf.full_book_excel_select(dif_table_path)
-
+# dif_table = mf.full_book_excel_select(dif_table_path)
 # выгрузка в имеющийся файл, с перезаписью поверх старых данных
-mf.add_print_to_excel(name_base, dif_table)
+# mf.add_print_to_excel(name_xlsx, dif_table)
+
+#   ОБРАБОТКА ВЫГРУЖЕНЫХ ИЗ АВТОМАТОВ И.М. ДАННЫХ С ИСПОЛЬЗОВАНИЕМ SCV ФАЙЛОВ
+
+# old_list_csv = pd.read_csv(name_csv)
+# print(old_list_csv)
+
+# old_list_date_csv = set(old_list_csv.loc[:, 'Дата'])
+
+def print_to_csv(a):
+    # b - обрабатываемая таблица, список полных путей с именами файлов 'X:/аналитика/Отчеты/Автоматы по конкурентам/14.04.21/newAvtomatYAR.xlsx'
+    # a - путь к папке вывода, место где будет расположен итоговый файл эксель
+    # create excel writer object
+    df = pd.read_excel(io=a, engine='openpyxl', sheet_name='date')
+    table = df.loc[:]
+    table.to_csv(name_csv, sep='|', encoding='cp1251')
+    print('DataFrame is written successfully to Excel File.')
 
 
+print_to_csv(name_xlsx)
