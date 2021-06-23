@@ -176,3 +176,22 @@ def print_to_excel(a, b, c, d):
     # save the excel
     doc_to_excel.save()
     print('DataFrame is written successfully to Excel File.')
+
+# принимает добавленный массив (новые данные), объединяет со старыми данными, создаеёт обновлённый массив и
+# перезаписывает его поверх старых данных в эксельный файл
+def add_print_to_excel(a, b):
+    # b - обрабатываемая таблица, список полных путей с именами файлов 'X:/аналитика/Отчеты/Автоматы по конкурентам/14.04.21/newAvtomatYAR.xlsx'
+    # a - путь к папке вывода, место где будет расположен итоговый файл эксель
+
+    # create excel writer object
+    df = pd.read_excel(io=a, engine='openpyxl', sheet_name='date')
+    old_table = df.loc[:]
+    nu_table = b
+    full_table = pd.concat([old_table, nu_table])
+    doc_to_excel = pd.ExcelWriter(a, engine='xlsxwriter')
+    # write dataframe to excel
+    full_table.to_excel(doc_to_excel, sheet_name='date', index=False)
+    # save the excel
+    doc_to_excel.save()
+
+    print('DataFrame is written successfully to Excel File.')

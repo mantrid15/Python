@@ -45,39 +45,16 @@ full_path_to_dirs = mf.path_to_dirs(dirs, path_to_table)
 #  список путей к файлам
 full_list_files = mf.list_files_source(full_path_to_dirs)
 
-old_list = pd.read_excel(name_base,
-                         engine='openpyxl', sheet_name='date')
+#  чтение файла со старыми даннными
+old_list = pd.read_excel(name_base, engine='openpyxl', sheet_name='date')
+# получение списка уникальных дат
 old_list_date = set(old_list.loc[:, 'Дата'])
+# получение разницы между старыми данными и новыми выгрузками
 dif_list_date = list(set(dirs) - set(old_list_date))
+# возвращает полный список новых файлов с путями в папке АВТОМАТ
 dif_table_path = mf.list_files_source(mf.path_to_dirs(dif_list_date, path_to_table))
+# создаеёт новый dataFrame для добавления к существующей базе
 dif_table = mf.full_book_excel_select(dif_table_path)
 
-
-print(dif_table)
-# print(old_list_date)
-# diff_dirs =
-# table_avtomat = mf.full_book_excel_select(full_list_files)
-# print(table_avtomat)
-# mf.print_to_excel(table_avtomat, output_path, output_name, output_name_sheet)
-
-
-
-
-# принимает массив и выгружает его в эксельный файл
-# def add_print_to_excel(a, b):
-#     # a - обрабатываемая таблица, список полных путей с именами файлов 'X:/аналитика/Отчеты/Автоматы по конкурентам/14.04.21/newAvtomatYAR.xlsx'
-#     # b - путь к папке вывода, место где будет расположен итоговый файл эксель
-#     # c - нименование выходного файла
-#     # d - имя листа в создаваемом файле
-#     # create excel writer object
-#     df = pd.read_excel(io=name_base, engine='openpyxl', sheet_name='date')
-#     old_table = df.loc[:]
-#     nu_table = []
-#     full_table = pd.contcat([old_table, nu_table])
-#     doc_to_excel = pd.ExcelWriter(name_base, engine='xlsxwriter')
-#     # write dataframe to excel
-#     a.to_excel(doc_to_excel, sheet_name='date', index=False)
-#     # save the excel
-#     doc_to_excel.save()
-#
-#     print('DataFrame is written successfully to Excel File.')
+# выгрузка в имеющийся файл, с перезаписью поверх старых данных
+mf.add_print_to_excel(name_base, dif_table)
