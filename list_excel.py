@@ -58,3 +58,5 @@ dif_table = mf.full_book_excel_select(dif_table_path)
 
 # выгрузка в имеющийся файл, с перезаписью поверх старых данных
 mf.add_print_to_excel(name_base, dif_table)
+
+
