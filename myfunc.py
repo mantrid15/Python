@@ -58,7 +58,7 @@ def list_files_source(a):
             path_to_files.sort()
             nu: set = set(path_to_files)
             # print(nu)
-    return nu
+        return nu
 
 
 #     возвращает массив с путями папкам с исходниками АВТОМАТАМИ
@@ -145,6 +145,8 @@ def concat_list(a):
 # принимает список путей/имён файлов, применяет функ concat_list return
 
 def full_book_excel_select(d):
+    if d is None:
+        return print("Состояние обновлено. Источник и выходной файл выравнены")
     full_table = []
     counter = len(d)
     print(f"Файлов в выборке: {counter}")
@@ -177,12 +179,14 @@ def print_to_excel(a, b, c, d):
     doc_to_excel.save()
     print('DataFrame is written successfully to Excel File.')
 
+
 # принимает добавленный массив (новые данные), объединяет со старыми данными, создаеёт обновлённый массив и
 # перезаписывает его поверх старых данных в эксельный файл
 def add_print_to_excel(a, b):
     # b - обрабатываемая таблица, список полных путей с именами файлов 'X:/аналитика/Отчеты/Автоматы по конкурентам/14.04.21/newAvtomatYAR.xlsx'
     # a - путь к папке вывода, место где будет расположен итоговый файл эксель
-
+    if b is None:
+        return print("Состояние обновлено. Источник и выходной файл выравнены. Операция остановлена.")
     # create excel writer object
     df = pd.read_excel(io=a, engine='openpyxl', sheet_name='date')
     old_table = df.loc[:]
