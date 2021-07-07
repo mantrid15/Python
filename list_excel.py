@@ -3,11 +3,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import openpyxl
 import os
-import datetime
-import pprint
+# import datetime
+# import pprint
 import myfunc as mf
-import more_itertools as mi
-import sqlite3
+# import more_itertools as mi
+# import sqlite3
 from openpyxl import load_workbook
 import constant as ct
 from io import StringIO
@@ -38,95 +38,58 @@ else:
 # print(path_to_table, output_path, output_name, output_name_sheet, sep='\n')
 # путь к папке содержащей папки с АВТОМАТАМИ
 dirs = os.listdir(path_to_table)
-
 name_xlsx = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/filter_free_sales.xlsx'
 name_csv = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/filter_free_sales.csv'
-name_db = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/filter_free_sales.db'
+
 
 # список папок в рабочей папке+
-# full_path_to_dirs = mf.path_to_dirs(dirs, path_to_table)
+full_path_to_dirs = mf.path_to_dirs(dirs, path_to_table)
+# print(full_path_to_dirs)
 #  список путей к файлам
-# full_list_files = mf.list_files_source(full_path_to_dirs)
-
+full_list_files = mf.list_files_source(full_path_to_dirs)
+# print(full_list_files)
 #  чтение файла со старыми даннными
 old_list_xlsx = pd.read_excel(name_xlsx, engine='openpyxl', sheet_name='date')
-
 # получение списка уникальных дат
 old_list_date = set(old_list_xlsx.loc[:, 'Дата'])
+# print(*old_list_date, sep='\n')
 
 # получение разницы между старыми данными и новыми выгрузками
 dif_list_date = list(set(dirs) - set(old_list_date))
-
-# возвращает полный список новых файлов с путями в папке АВТОМАТ
+# print(dif_list_date)
 dif_table_path = mf.list_files_source(mf.path_to_dirs(dif_list_date, path_to_table))
-# print(type(dif_table_path))
+# возвращает полный список новых файлов с путями в папке АВТОМАТ
 # создаеёт новый dataFrame для добавления к существующей базе
 dif_table = mf.full_book_excel_select(dif_table_path)
 # print(dif_table)
 # выгрузка в имеющийся файл, с перезаписью поверх старых данных
 mf.add_print_to_excel(name_xlsx, dif_table)
 
-# ОБРАБОТКА ВЫГРУЖЕНЫХ ИЗ АВТОМАТОВ И.М. ДАННЫХ С ИСПОЛЬЗОВАНИЕМ SCV ФАЙЛОВ
-#
-# old_list_csv = pd.read_csv(name_csv)
-# print(old_list_csv)
 
-# old_list_date_csv = set(old_list_csv.loc[:, 'Дата'])
-
-
-
-
-def print_to_csv(a):
+def print_to_csv(a,b):
     # b - обрабатываемая таблица, список полных путей с именами файлов 'X:/аналитика/Отчеты/Автоматы по конкурентам/14.04.21/newAvtomatYAR.xlsx'
     # a - путь к папке вывода, место где будет расположен итоговый файл эксель
     # create excel writer object
     df = pd.read_excel(io=a, engine='openpyxl', sheet_name='date')
     table = df.loc[:]
-    table.to_csv(name_csv, sep='|', encoding='cp1251')
+    table.to_csv(b, sep='|', encoding='cp1251')
     print('DataFrame is written successfully to CSV File.')
 
 
-print_to_csv(name_xlsx)
+# конвертаци файла эксель в файл csv
+print_to_csv(name_xlsx, name_csv)
 
 
-# СОЗдание пустой базы данных
 
-
-# def print_to_sql(a):
-#     # b - обрабатываемая таблица, список полных путей с именами файлов 'X:/аналитика/Отчеты/Автоматы по конкурентам/14.04.21/newAvtomatYAR.xlsx'
-#     # a - путь к папке вывода, место где будет расположен итоговый файл эксель
-#     # create excel writer object
-#     # df = pd.read_excel(io=a, engine='openpyxl', sheet_name='date')
-#     df = pd.read_csv(a, encoding='cp1251')
-#     table = df.loc[:]
+# ОБРАБОТКА ВЫГРУЖЕНЫХ ИЗ АВТОМАТОВ И.М. ДАННЫХ С ИСПОЛЬЗОВАНИЕМ SCV ФАЙЛОВ
 #
-#     # print(table)
-#
-#     cxn = sqlite3.connect(name_db)
-#     print(cxn)
-#     sql_table = table.to_sql(name_db, con=cxn, if_exists='replace', index=False)
-#     cxn.commit()
-#     cxn.close()
-#     print(sql_table)
-#     # table.to_csv(name_csv, sep='|', encoding='cp1251')
-#     print('DataFrame is written successfully to Excel File.')
-#
-#
-# print_to_sql(name_csv)
-#
-# conn = sqlite3.connect(name_db)
-# ccc = conn.cursor()
-# # print(c)
-#
-# ccc = ccc.execute("SELECT * FROM filter_free_sales")
-#
-# results = ccc.fetchall()
-# print(ccc)
-
-
+# old_list_csv = pd.read_csv(name_csv)
+# print(old_list_csv)
+# old_list_date_csv = set(old_list_csv.loc[:, 'Дата'])
 
 # def add_print_to_csv(a, b):
-#     # b - обрабатываемая таблица, список полных путей с именами файлов 'X:/аналитика/Отчеты/Автоматы по конкурентам/14.04.21/newAvtomatYAR.xlsx'
+#     # b - обрабатываемая таблица, список полных путей с именами файлов
+#     # 'X:/аналитика/Отчеты/Автоматы по конкурентам/14.04.21/newAvtomatYAR.xlsx'
 #     # a - путь к папке вывода, место где будет расположен итоговый файл эксель
 #
 #     # create excel writer object
@@ -139,5 +102,4 @@ print_to_csv(name_xlsx)
 #     full_table.to_excel(doc_to_excel, sheet_name='date', index=False)
 #     # save the excel
 #     doc_to_excel.save()
-#
 #     print('DataFrame is written successfully to Excel File.')

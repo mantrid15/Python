@@ -183,7 +183,8 @@ def print_to_excel(a, b, c, d):
 # принимает добавленный массив (новые данные), объединяет со старыми данными, создаеёт обновлённый массив и
 # перезаписывает его поверх старых данных в эксельный файл
 def add_print_to_excel(a, b):
-    # b - обрабатываемая таблица, список полных путей с именами файлов 'X:/аналитика/Отчеты/Автоматы по конкурентам/14.04.21/newAvtomatYAR.xlsx'
+    # b - обрабатываемая таблица, список полных путей с именами файлов
+    # 'X:/аналитика/Отчеты/Автоматы по конкурентам/14.04.21/newAvtomatYAR.xlsx'
     # a - путь к папке вывода, место где будет расположен итоговый файл эксель
     if b is None:
         return print("Состояние обновлено. Источник и выходной файл выравнены. Операция остановлена.")
@@ -199,3 +200,12 @@ def add_print_to_excel(a, b):
     doc_to_excel.save()
 
     print('DataFrame is written successfully to Excel File.')
+
+def print_to_csv(a, b):
+    # b - обрабатываемая таблица, список полных путей с именами файлов 'X:/аналитика/Отчеты/Автоматы по конкурентам/14.04.21/newAvtomatYAR.xlsx'
+    # a - путь к папке вывода, место где будет расположен итоговый файл эксель
+    # create excel writer object
+    df = pd.read_excel(io=a, engine='openpyxl', sheet_name='date')
+    table = df.loc[:]
+    table.to_csv(b, sep='|', encoding='cp1251')
+    print('DataFrame is written successfully to CSV File.')
