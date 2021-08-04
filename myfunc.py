@@ -31,15 +31,15 @@ from openpyxl import load_workbook
 #     return nu_list
 
 # func форматирования исходного списка
-def date_str_to_date_and_delete_extension(any_list, format_template):
-    nu_list = []
-    for i in any_list:
-        if len(i) > 8:
-            i = i[0:8:1]
-        i = datetime.datetime.strptime(i, format_template).date()
-        nu_list.append(i)
-        nu_list.sort(reverse=True)
-    return nu_list
+# def date_str_to_date_and_delete_extension(any_list, format_template):
+#     nu_list = []
+#     for i in any_list:
+#         if len(i) > 8:
+#             i = i[0:8:1]
+#         i = datetime.datetime.strptime(i, format_template).date()
+#         nu_list.append(i)
+#         nu_list.sort(reverse=True)
+#     return nu_list
 
 
 # возвращает полный список файлов с путями в папке АВТОМАТ
@@ -142,79 +142,7 @@ def concat_list(a):
     return nu_full_table
 
 
-def concat_list_new(a):
-    counter = 0
-    project = ''
-    if a.find('Автоматы') > 0:
-        ind = 4
-    else:
-        ind = 5
-    date = a.split(sep='/')[ind]
-    str(date)
-    if a.find('DABL') > 0:
-        project = 'Дабл'
-    if a.find('MAYgorkiLns') > 0:
-        project = 'Май'
-    if a.find('MKV') > 0:
-        project = 'МК'
-    if a.find('NKkorenevo') > 0:
-        project = 'НК'
-    if a.find('NTM') > 0:
-        project = 'НТ'
-    if a.find('OB2') > 0:
-        project = 'ОБ2'
-    if a.find('TOP') > 0:
-        project = 'Тополя'
-    if a.find('VB2') > 0:
-        project = 'ВБ'
-    if a.find('YAR') > 0:
-        project = 'СЯ'
-    b = ""
-    if a.find('MAYgorkiLns') > 0:
-        b = ct.list_may
-    elif a.find('NKkorenevo') > 0:
-        b = ct.list_nk
-    else:
-        b = ct.list_all
-    full_table = []
-
-    for i in b:
-        my_table = pd.read_excel(io=a, engine='openpyxl', sheet_name=i)
-        nu_table_1 = my_table.loc[:, ct.headers_all]
-        nu_table_1['Проект'] = project
-        nu_table_1['Дата'] = date
-        nu_table_select = nu_table_1.loc[nu_table_1.loc[:, 'доступность к продаже'] == 1]
-
-        if len(nu_table_select) == 0:
-            nu_table_select = pd.DataFrame(data=None, columns=ct.headers_all)
-        full_table.append(nu_table_select)
-
-    nu_full_table = pd.concat(full_table)
-    print(f'Список по Проекту {project} - Дата: - {date}  Выбрано по фильтру строк: ' + str(len(nu_table_select)))
-    return nu_full_table
-
-
 # принимает список путей/имён файлов, применяет функ concat_list return
-
-def full_book_excel_select_new(d):
-    if d is None:
-        return print("Состояние обновлено. Источник и выходной файл выравнены")
-    full_table = []
-    counter = len(d)
-    print(f"Файлов в выборке: {counter}")
-    for i in d:
-        i = str(i)
-        list1 = concat_list_new(i)
-        full_table.append(list1)
-        counter = counter - 1
-        if counter > 0:
-            print(f"Осталось в выборке: {counter}")
-        else:
-            print('Выгрузка закончена')
-
-    nu_full_table = pd.concat(full_table)
-
-    return nu_full_table
 
 
 def full_book_excel_select(d):
