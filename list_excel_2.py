@@ -33,16 +33,15 @@ else:
     # исходное местоположение отчётов/автоматов от И.М,
     path_to_table = 'X:/аналитика/Отчеты/Автоматы по конкурентам/'
     output_path = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/'
-    output_name = 'filter_free_sales.xlsx'
+    output_name = 'filter_free_sales_alt.xlsx'
     output_name_sheet = 'date'
 
 # print(path_to_table, output_path, output_name, output_name_sheet, sep='\n')
 # путь к папке содержащей папки с АВТОМАТАМИ
 dirs = os.listdir(path_to_table)
 
-name_xlsx = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/filter_free_sales.xlsx'
-name_csv = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/filter_free_sales.csv'
-name_db = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/filter_free_sales.db'
+name_xlsx = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/filter_free_sales_alt.xlsx'
+name_csv = 'X:/аналитика/КозловскийАВ/06_ТУРНИРАЯ ТАБЛИЦА/13_finalProject/filter_free_sales_alt.csv'
 
 # список папок в рабочей папке+
 # full_path_to_dirs = mf.path_to_dirs(dirs, path_to_table)
@@ -62,7 +61,7 @@ dif_list_date = list(set(dirs) - set(old_list_date))
 dif_table_path = mf.list_files_source(mf.path_to_dirs(dif_list_date, path_to_table))
 # print(type(dif_table_path))
 # создаеёт новый dataFrame для добавления к существующей базе
-dif_table = mf.full_book_excel_select(dif_table_path)
+dif_table = mf.full_book_excel_select_new(dif_table_path)
 # print(dif_table)
 # выгрузка в имеющийся файл, с перезаписью поверх старых данных
 mf.add_print_to_excel(name_xlsx, dif_table)
